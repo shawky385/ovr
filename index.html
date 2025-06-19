@@ -98,7 +98,6 @@
 
 <form action="https://script.google.com/macros/s/AKfycbxYF83WsiiPkHu_xhn7KU2uQ6JolGbuhJdFN1Oz-xalwyyBU0e-pNaTDX2MRXT6V98Q/exec" method="post">
 
-  <!-- شعارات الجامعة -->
   <div class="logo-container">
     <img src="244185720_370792891415541_7314683137032448754_n.png" alt="شعار وحدة الجودة">
     <img src="شعار_جامعة_الزقازيق.png" alt="شعار جامعة الزقازيق">
@@ -106,19 +105,23 @@
 
   <h2>نموذج الإبلاغ عن واقعة OVR</h2>
 
-  <!-- باقي عناصر النموذج كما هي -->
   <label for="hospital_name">اسم المستشفى <span style="color:red">*</span></label>
-  <select id="hospital_name" name="اسم المستشفى" required>
+  <select id="hospital_name" name="اسم المستشفى" required onchange="toggleOther('hospital_name', 'other_hospital_div', 'other_hospital_input')">
     <option value="" disabled selected>-- اختر اسم المستشفى --</option>
     <option value="مستشفى الجراحة الجديد">مستشفى الجراحة الجديد</option>
     <option value="مستشفى الطوارئ">مستشفى الطوارئ</option>
     <option value="مستشفى الباطنة">مستشفى الباطنة</option>
     <option value="العيادات الخارجية">العيادات الخارجية</option>
     <option value="مستشفى النسا والولادة">مستشفى النسا والولادة</option>
+    <option value="أخرى">أخرى</option>
   </select>
+  <div id="other_hospital_div" style="display:none; margin-top: 10px;">
+    <label for="other_hospital_input">يرجى تحديد اسم المستشفى:</label>
+    <input type="text" id="other_hospital_input" name="اسم مستشفى آخر" />
+  </div>
 
   <label for="reporter_type">نوع المُبلِّغ <span style="color: red;">*</span></label>
-  <select id="reporter_type" name="نوع المُبلِّغ" required>
+  <select id="reporter_type" name="نوع المُبلِّغ" required onchange="toggleOther('reporter_type', 'other_reporter_div', 'other_reporter_input')">
     <option value="" disabled selected>-- اختر نوع المُبلِّغ --</option>
     <option value="مريض">مريض</option>
     <option value="زائر">زائر</option>
@@ -127,7 +130,12 @@
     <option value="ممرض">ممرض</option>
     <option value="فني">فني</option>
     <option value="موظف">موظف</option>
+    <option value="أخرى">أخرى</option>
   </select>
+  <div id="other_reporter_div" style="display:none; margin-top: 10px;">
+    <label for="other_reporter_input">يرجى تحديد نوع المُبلِّغ:</label>
+    <input type="text" id="other_reporter_input" name="نوع مبلغ آخر" />
+  </div>
 
   <label for="reporter_name">الاسم(اختياري)</label>
   <input type="text" id="reporter_name" name="الاسم" />
@@ -139,7 +147,7 @@
   <input type="datetime-local" id="incident_datetime" name="تاريخ ووقت الواقعة" required />
 
   <label for="incident_location">مكان الواقعة <span style="color: red;">*</span></label>
-  <select id="incident_location" name="مكان الواقعة" required>
+  <select id="incident_location" name="مكان الواقعة" required onchange="toggleOther('incident_location', 'other_location_div', 'other_location_input')">
     <option value="" disabled selected>-- اختر مكان الواقعة --</option>
     <option value="عمليات أ">عمليات أ</option>
     <option value="عمليات ب">عمليات ب</option>
@@ -164,9 +172,13 @@
     <option value="وحدة السمعيات">وحدة السمعيات</option>
     <option value="أخرى">أخرى</option>
   </select>
+  <div id="other_location_div" style="display:none; margin-top: 10px;">
+    <label for="other_location_input">يرجى تحديد مكان الواقعة:</label>
+    <input type="text" id="other_location_input" name="مكان واقعة آخر" />
+  </div>
 
   <label for="error_type">نوع الخطأ <span style="color: red;">*</span></label>
-  <select id="error_type" name="نوع الخطأ" required>
+  <select id="error_type" name="نوع الخطأ" required onchange="toggleOther('error_type', 'other_error_div', 'other_error_input')">
     <option value="" disabled selected>-- اختر نوع الخطأ --</option>
     <option value="دوائي">دوائي</option>
     <option value="جراحي">جراحي</option>
@@ -183,6 +195,10 @@
     <option value="سلوك">سلوك</option>
     <option value="أخرى">أخرى</option>
   </select>
+  <div id="other_error_div" style="display:none; margin-top: 10px;">
+    <label for="other_error_input">يرجى تحديد نوع الخطأ:</label>
+    <input type="text" id="other_error_input" name="نوع خطأ آخر" />
+  </div>
 
   <label for="incident_description">وصف الواقعة <span style="color: red;">*</span></label>
   <textarea id="incident_description" name="وصف الواقعة" rows="4" required></textarea>
@@ -192,6 +208,23 @@
 
   <button type="submit">إرسال</button>
 </form>
+
+<script>
+  function toggleOther(selectId, divId, inputId) {
+    var value = document.getElementById(selectId).value;
+    var otherDiv = document.getElementById(divId);
+    var otherInput = document.getElementById(inputId);
+
+    if (value === "أخرى") {
+      otherDiv.style.display = "block";
+      otherInput.setAttribute("required", "required");
+    } else {
+      otherDiv.style.display = "none";
+      otherInput.removeAttribute("required");
+      otherInput.value = "";
+    }
+  }
+</script>
 
 </body>
 </html>
