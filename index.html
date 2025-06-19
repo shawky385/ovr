@@ -63,6 +63,17 @@
       background: #0056b3;
     }
 
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-container img {
+      height: 100px;
+      margin: 0 20px;
+      vertical-align: middle;
+    }
+
     @media (max-width: 600px) {
       form {
         padding: 15px;
@@ -75,14 +86,27 @@
       h2 {
         font-size: 20px;
       }
+
+      .logo-container img {
+        height: 80px;
+        margin: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
 <form action="https://script.google.com/macros/s/AKfycbxYF83WsiiPkHu_xhn7KU2uQ6JolGbuhJdFN1Oz-xalwyyBU0e-pNaTDX2MRXT6V98Q/exec" method="post">
+
+  <!-- شعارات الجامعة -->
+  <div class="logo-container">
+    <img src="244185720_370792891415541_7314683137032448754_n.png" alt="شعار وحدة الجودة">
+    <img src="شعار_جامعة_الزقازيق.png" alt="شعار جامعة الزقازيق">
+  </div>
+
   <h2>نموذج الإبلاغ عن واقعة OVR</h2>
 
+  <!-- باقي عناصر النموذج كما هي -->
   <label for="hospital_name">اسم المستشفى <span style="color:red">*</span></label>
   <select id="hospital_name" name="اسم المستشفى" required>
     <option value="" disabled selected>-- اختر اسم المستشفى --</option>
