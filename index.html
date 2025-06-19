@@ -83,8 +83,9 @@
 <form action="https://script.google.com/macros/s/AKfycbxYF83WsiiPkHu_xhn7KU2uQ6JolGbuhJdFN1Oz-xalwyyBU0e-pNaTDX2MRXT6V98Q/exec" method="post">
   <h2>نموذج الإبلاغ عن واقعة OVR</h2>
 
-  <label for="hospital_name">اسم المستشفى</label>
-  <select id="hospital_name" name="اسم المستشفى">
+  <label for="hospital_name">اسم المستشفى <span style="color:red">*</span></label>
+  <select id="hospital_name" name="اسم المستشفى" required>
+    <option value="" disabled selected>-- اختر اسم المستشفى --</option>
     <option value="مستشفى الجراحة الجديد">مستشفى الجراحة الجديد</option>
     <option value="مستشفى الطوارئ">مستشفى الطوارئ</option>
     <option value="مستشفى الباطنة">مستشفى الباطنة</option>
@@ -92,8 +93,9 @@
     <option value="مستشفى النسا والولادة">مستشفى النسا والولادة</option>
   </select>
 
-  <label for="reporter_type">نوع المُبلِّغ</label>
-  <select id="reporter_type" name="نوع المُبلِّغ">
+  <label for="reporter_type">نوع المُبلِّغ <span style="color: red;">*</span></label>
+  <select id="reporter_type" name="نوع المُبلِّغ" required>
+    <option value="" disabled selected>-- اختر نوع المُبلِّغ --</option>
     <option value="مريض">مريض</option>
     <option value="زائر">زائر</option>
     <option value="دكتور">دكتور</option>
@@ -103,17 +105,18 @@
     <option value="موظف">موظف</option>
   </select>
 
-  <label for="reporter_name">الاسم</label>
+  <label for="reporter_name">الاسم(اختياري)</label>
   <input type="text" id="reporter_name" name="الاسم" />
 
-  <label for="phone">رقم الهاتف</label>
+  <label for="phone">رقم الهاتف(اختياري)</label>
   <input type="tel" id="phone" name="رقم الهاتف" />
 
   <label for="incident_datetime">تاريخ ووقت الواقعة <span style="color: red;">*</span></label>
   <input type="datetime-local" id="incident_datetime" name="تاريخ ووقت الواقعة" required />
 
-  <label for="incident_location">مكان الواقعة</label>
-  <select id="incident_location" name="مكان الواقعة">
+  <label for="incident_location">مكان الواقعة <span style="color: red;">*</span></label>
+  <select id="incident_location" name="مكان الواقعة" required>
+    <option value="" disabled selected>-- اختر مكان الواقعة --</option>
     <option value="عمليات أ">عمليات أ</option>
     <option value="عمليات ب">عمليات ب</option>
     <option value="عناية الثاني">عناية الثاني</option>
@@ -138,8 +141,9 @@
     <option value="أخرى">أخرى</option>
   </select>
 
-  <label for="error_type">نوع الخطأ</label>
-  <select id="error_type" name="نوع الخطأ">
+  <label for="error_type">نوع الخطأ <span style="color: red;">*</span></label>
+  <select id="error_type" name="نوع الخطأ" required>
+    <option value="" disabled selected>-- اختر نوع الخطأ --</option>
     <option value="دوائي">دوائي</option>
     <option value="جراحي">جراحي</option>
     <option value="تحاليل">تحاليل</option>
