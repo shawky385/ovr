@@ -47,20 +47,37 @@
       resize: vertical;
     }
 
-    button {
+    .button-container {
+      display: flex;
+      gap: 10px;
       margin-top: 20px;
+    }
+
+    button {
       padding: 12px;
-      background: #007bff;
-      color: white;
       font-size: 18px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      width: 100%;
+      flex: 1;
     }
 
-    button:hover {
+    .submit-btn {
+      background: #007bff;
+      color: white;
+    }
+
+    .submit-btn:hover {
       background: #0056b3;
+    }
+
+    .cancel-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background: #c82333;
     }
 
     .logo-container {
@@ -91,6 +108,10 @@
         height: 80px;
         margin: 10px;
       }
+
+      .button-container {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -104,6 +125,7 @@
   </div>
 
   <h2>نموذج الإبلاغ عن واقعة OVR</h2>
+  <p style="text-align: center; color: #dc3545; font-weight: bold;">Confidential</p>
 
   <label for="hospital_name">اسم المستشفى <span style="color:red">*</span></label>
   <select id="hospital_name" name="اسم المستشفى" required onchange="toggleOther('hospital_name', 'other_hospital_div', 'other_hospital_input')">
@@ -142,6 +164,36 @@
 
   <label for="phone">رقم الهاتف(اختياري)</label>
   <input type="tel" id="phone" name="رقم الهاتف(اختياري)" />
+
+  <label for="injured_person_type"> الشخص المصاب <span style="color: red;">*</span></label>
+  <select id="injured_person_type" name=" الشخص المصاب" required onchange="toggleInjuredPerson('injured_person_type')">
+    <option value="" disabled selected>-- اختر نوع الشخص المصاب --</option>
+    <option value="مريض">مريض</option>
+    <option value="موظف">موظف</option>
+    <option value="زائر">زائر</option>
+    <option value="أخرى">أخرى</option>
+  </select>
+
+  <!-- حقول المريض - تظهر فقط عند اختيار "مريض" -->
+  <div id="patient_fields_div" style="display:none; margin-top: 10px;">
+    <label for="patient_full_name">اسم المريض رباعي <span style="color: red;">*</span></label>
+    <input type="text" id="patient_full_name" name="اسم المريض رباعي" />
+    
+    <label for="medical_file_number">رقم الملف الطبي <span style="color: red;">*</span></label>
+    <input type="text" id="medical_file_number" name="رقم الملف الطبي" />
+  </div>
+
+  <!-- حقول الموظف - تظهر فقط عند اختيار "موظف" -->
+  <div id="employee_fields_div" style="display:none; margin-top: 10px;">
+    <label for="employee_name">اسم الموظف <span style="color: red;">*</span></label>
+    <input type="text" id="employee_name" name="اسم الموظف" />
+    
+    <label for="employee_department">القسم <span style="color: red;">*</span></label>
+    <input type="text" id="employee_department" name="القسم" />
+    
+    <label for="employee_position">الوظيفة <span style="color: red;">*</span></label>
+    <input type="text" id="employee_position" name="الوظيفة" />
+  </div>
 
   <label for="incident_datetime">تاريخ ووقت الواقعة <span style="color: red;">*</span></label>
   <input type="datetime-local" id="incident_datetime" name="تاريخ ووقت الواقعة" required />
@@ -206,7 +258,10 @@
   <label for="recommendations">التوصيات أو الإجراءات المقترحة</label>
   <textarea id="recommendations" name="التوصيات أو الإجراءات المقترحة" rows="3"></textarea>
 
-  <button type="submit">إرسال</button>
+  <div class="button-container">
+    <button type="submit" class="submit-btn">إرسال</button>
+    <button type="button" class="cancel-btn" onclick="resetForm()">إلغاء</button>
+  </div>
 </form>
 
 <script>
@@ -223,6 +278,81 @@
       otherInput.removeAttribute("required");
       otherInput.value = "";
     }
+  }
+
+  function toggleInjuredPerson(selectId) {
+    var value = document.getElementById(selectId).value;
+    var patientFieldsDiv = document.getElementById('patient_fields_div');
+    var patientNameInput = document.getElementById('patient_full_name');
+    var medicalFileInput = document.getElementById('medical_file_number');
+    var employeeFieldsDiv = document.getElementById('employee_fields_div');
+    var employeeNameInput = document.getElementById('employee_name');
+    var employeeDepartmentInput = document.getElementById('employee_department');
+    var employeePositionInput = document.getElementById('employee_position');
+
+    // إخفاء جميع الحقول أولاً
+    patientFieldsDiv.style.display = "none";
+    employeeFieldsDiv.style.display = "none";
+    
+    // إزالة خاصية required من جميع الحقول
+    patientNameInput.removeAttribute("required");
+    medicalFileInput.removeAttribute("required");
+    employeeNameInput.removeAttribute("required");
+    employeeDepartmentInput.removeAttribute("required");
+    employeePositionInput.removeAttribute("required");
+    
+    // مسح القيم
+    patientNameInput.value = "";
+    medicalFileInput.value = "";
+    employeeNameInput.value = "";
+    employeeDepartmentInput.value = "";
+    employeePositionInput.value = "";
+
+    if (value === "مريض") {
+      patientFieldsDiv.style.display = "block";
+      patientNameInput.setAttribute("required", "required");
+      medicalFileInput.setAttribute("required", "required");
+    } else if (value === "موظف") {
+      employeeFieldsDiv.style.display = "block";
+      employeeNameInput.setAttribute("required", "required");
+      employeeDepartmentInput.setAttribute("required", "required");
+      employeePositionInput.setAttribute("required", "required");
+    }
+  }
+
+  function resetForm() {
+    // منع إرسال النموذج
+    event.preventDefault();
+    
+    if (confirm("هل أنت متأكد من أنك تريد إلغاء النموذج؟ سيتم فقدان جميع البيانات المدخلة.")) {
+      // إعادة تعيين النموذج
+      document.querySelector('form').reset();
+      
+      // إخفاء جميع الحقول الإضافية
+      document.getElementById('other_hospital_div').style.display = 'none';
+      document.getElementById('other_reporter_div').style.display = 'none';
+      document.getElementById('patient_fields_div').style.display = 'none';
+      document.getElementById('employee_fields_div').style.display = 'none';
+      document.getElementById('other_location_div').style.display = 'none';
+      document.getElementById('other_error_div').style.display = 'none';
+      
+      // إزالة خاصية required من الحقول الإضافية
+      document.getElementById('other_hospital_input').removeAttribute('required');
+      document.getElementById('other_reporter_input').removeAttribute('required');
+      document.getElementById('patient_full_name').removeAttribute('required');
+      document.getElementById('medical_file_number').removeAttribute('required');
+      document.getElementById('employee_name').removeAttribute('required');
+      document.getElementById('employee_department').removeAttribute('required');
+      document.getElementById('employee_position').removeAttribute('required');
+      document.getElementById('other_location_input').removeAttribute('required');
+      document.getElementById('other_error_input').removeAttribute('required');
+      
+      // رسالة تأكيد
+      alert("تم إلغاء النموذج بنجاح.");
+    }
+    
+    // التأكد من عدم إرسال النموذج
+    return false;
   }
 </script>
 
